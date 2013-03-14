@@ -6,6 +6,9 @@ end
 require 'rspec'
 require 'fudge'
 
+require 'coveralls'
+Coveralls.wear!
+
 Dir[File.expand_path('../../spec/support/*', __FILE__)].each { |f| require f }
 
 # Get rid of output in specs
