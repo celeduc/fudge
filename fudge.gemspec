@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.executables   = %w{fudge}
   s.require_paths = %w{lib}
 
-  s.add_dependency 'thor'
+  s.add_dependency 'thor', '~> 0.14.6'
   s.add_dependency 'rainbow'
   s.add_dependency 'activesupport'
   s.add_development_dependency 'redcarpet'
