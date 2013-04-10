@@ -4,8 +4,9 @@ RSpec::Matchers.define :be_registered_as do |key|
   end
 end
 
-
+# Collection of matchers for use in a test environment
 module FudgeMatchers
+  # Run matcher
   class Run
     attr_reader :args, :expected, :task
 
@@ -16,7 +17,7 @@ module FudgeMatchers
 
     def matches?(task)
       @task = task
-      ran = ''
+      ran = []
 
       if task.is_a?(Fudge::Tasks::Shell)
         to_stub = task
@@ -25,7 +26,7 @@ module FudgeMatchers
       end
 
       to_stub.stub(:run_command) do |cmd|
-        ran = cmd
+        ran << cmd
         ['dummy output', true]
       end
 
@@ -33,12 +34,13 @@ module FudgeMatchers
 
       @actual = ran
       if expected.is_a? Regexp
-        ran =~ expected
+        ran.any? {|cmd| cmd =~ expected}
       else
-        ran == expected
+        ran.include? expected
       end
     end
 
+    # Failure message
     def failure_message_for_should
       message = ""
       message << "Expected task :#{@task.class.name} "
@@ -48,6 +50,7 @@ module FudgeMatchers
   end
 end
 
+# Matcher to test a command has been run by the task
 def run_command(cmd, options={})
   FudgeMatchers::Run.new cmd, options
 end
